@@ -1,0 +1,41 @@
+{
+  "name": "hivemind-copilot",
+  "displayName": "HiveMind Copilot",
+  "description": "AI-powered development environment integrating decentralized AI agents with Hedera's enterprise blockchain",
+  "version": "0.3.0",
+  "publisher": "hivemind",
+  "engines": {
+    "vscode": "^1.73.0"
+  },
+  "categories": [
+    "Other",
+    "Programming Languages",
+    "Snippets"
+  ],
+  "activationEvents": [
+    "onCommand:hivemind.openPanel"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "hivemind.openPanel",
+        "title": "Open HiveMind Copilot",
+        "category": "HiveMind"
+      }
+    ]
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "dependencies": {
+    "node-fetch": "^2.7.0"
+  },
+  "devDependencies": {
+    "@types/node": "20.x",
+    "@types/node-fetch": "^2.6.4",
+    "@types/vscode": "^1.73.0",
+    "typescript": "^5.4.5"
+  }
+}
