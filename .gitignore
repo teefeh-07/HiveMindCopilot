@@ -216,7 +216,7 @@ temp/
 
 # VS Code Extension specific
 out/
-*.vsix
+
 .vscode-test/
 
 # Webpack
