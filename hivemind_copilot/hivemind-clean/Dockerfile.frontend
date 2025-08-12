@@ -1,0 +1,22 @@
+FROM node:16-slim
+
+# Set working directory
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy source files
+COPY . .
+
+# Build the VS Code extension
+RUN npm run compile
+
+# Create output directory
+RUN mkdir -p /output
+
+# Copy the built extension to the output directory
+CMD ["cp", "-r", "/app/dist", "/output"]

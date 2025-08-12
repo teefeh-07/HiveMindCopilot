@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  # Backend service
+  backend:
+    image: python:3.11-slim
+    working_dir: /app
+    volumes:
+      - ./hivemind:/app
+    ports:
+      - "8005:8000"
+    environment:
+      - OPERATOR_ID=${OPERATOR_ID:-}
+      - OPERATOR_KEY=${OPERATOR_KEY:-}
+      - NETWORK=${NETWORK:-testnet}
+    command: >
+      bash -c "apt-get update && 
+              apt-get install -y gcc g++ curl && 
+              pip install --no-cache-dir -r requirements.txt && 
+              cd src && 
+              python -m uvicorn api.app:app --host 0.0.0.0 --port 8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+  # Frontend build service (for building the VS Code extension)
+  frontend-builder:
+    image: node:16-slim
+    volumes:
+      - ./hivemind-clean:/app
+    working_dir: /app
+    command: bash -c "npm install && npm run compile && npm install -g @vscode/vsce && vsce package -o dist/hivemind-copilot.vsix"
+    depends_on:
+      - backend
+
+  # Documentation service (serves project documentation)
+  docs:
+    image: nginx:alpine
+    container_name: hivemind-docs
+    ports:
+      - "8085:80"
+    volumes:
+      - ./docs:/usr/share/nginx/html
+    depends_on:
+      - backend
+
+  # Example projects service (provides example projects)
+  examples:
+    image: nginx:alpine
+    container_name: hivemind-examples
+    ports:
+      - "8086:80"
+    volumes:
+      - ./examples:/usr/share/nginx/html
+    depends_on:
+      - backend
+
+# Define volumes for sharing data between containers
+volumes:
+  vsix-output:
+
+# Create a network for all services
+networks:
+  default:
+    name: hivemind-network

@@ -18,6 +18,9 @@ var/
 wheels/
 pip-wheel-metadata/
 share/python-wheels/
+
+# Hackathon specific
+hackathon_response.md
 *.egg-info/
 .installed.cfg
 *.egg

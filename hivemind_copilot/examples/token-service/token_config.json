@@ -1,0 +1,16 @@
+{
+  "token": {
+    "name": "HiveMind Example Token",
+    "symbol": "HMT",
+    "decimals": 2,
+    "initialSupply": 10000,
+    "maxSupply": 1000000,
+    "tokenType": "FUNGIBLE_COMMON",
+    "supplyType": "INFINITE",
+    "customFees": []
+  },
+  "network": {
+    "environment": "testnet"
+  },
+  "memo": "Created with HiveMind Copilot for Hedera Hackathon"
+}
